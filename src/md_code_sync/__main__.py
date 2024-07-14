@@ -25,8 +25,10 @@ parser.add_argument(
 args = parser.parse_args()
 
 if __name__ == "__main__":
+    # if there is not user root dir set md file dir as root dir
     if args.root_dir == "":
         args.root_dir = "/".join(args.md_file.split("/")[:-1])
+
     reader = FileReader(args.md_file, args.root_dir, args.write)
     reader.parse()
     reader.reset()

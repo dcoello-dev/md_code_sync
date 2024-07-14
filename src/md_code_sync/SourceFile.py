@@ -15,10 +15,23 @@ class SourceFile:
             return (id, self.source)
 
     def __init__(self, file_path):
-        file = open(file_path, "r")
-        self.lines = file.readlines()
-        file.close()
+        with  open(file_path, "r") as file:
+            self.lines = file.readlines()
         self.chunks = {}
+
+    def parse(self):
+        collectors = []
+        for line in self.lines:
+            if "code_block_start:" in line:
+                collectors.append(self.Collector(self.__get_chunk_id(line)))
+                continue
+            if "code_block_end:" in line:
+                for c in collectors:
+                    if c.id == self.__get_chunk_id(line):
+                        self.chunks[self.__get_chunk_id(line)] = c.finish()[1]
+                continue
+            for c in collectors:
+                c.add_line(line)
 
     def get(self, id):
         try:
@@ -28,19 +41,6 @@ class SourceFile:
                 f"key {id} not found, available keys: {' '.join(self.chunks.keys())}")
             sys.exit(1)
 
-    def get_chunk_id(self, line):
+    def __get_chunk_id(self, line):
         return line.split(":")[1].strip().replace(")", "")
 
-    def parse(self):
-        collectors = []
-        for line in self.lines:
-            if "code_block_start:" in line:
-                collectors.append(self.Collector(self.get_chunk_id(line)))
-                continue
-            if "code_block_end:" in line:
-                for c in collectors:
-                    if c.id == self.get_chunk_id(line):
-                        self.chunks[self.get_chunk_id(line)] = c.finish()[1]
-                continue
-            for c in collectors:
-                c.add_line(line)
