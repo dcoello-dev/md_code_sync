@@ -1,7 +1,8 @@
 from md_code_sync.SourceFile import SourceFile
 
+
 class FileReader:
-    def __init__(self, file_path:str, storage_path:str, write:bool):
+    def __init__(self, file_path: str, storage_path: str, write: bool):
         self.write_ = write
         self.file_path = file_path
         self.storage_path = storage_path
@@ -20,8 +21,8 @@ class FileReader:
             ret[k.strip()] = v.strip()
 
         ret["ext"] = ret["file"].split(".")[1]
-        
-        if index + 1 == len(lines) :
+
+        if index + 1 == len(lines):
             lines.append("")
         ret["linked"] = (f"```{ret['ext']}" in lines[index+1])
         return ret
@@ -43,18 +44,18 @@ class FileReader:
     def reset(self):
         lines = []
         flag = True
-        for i,l in enumerate(self.lines):
+        for i, l in enumerate(self.lines):
             if "```" in l and "code_block_link:" in self.lines[i-1]:
                 flag = False
             if flag:
                 lines.append(l)
             if not flag and "```\n" in l:
                 flag = True
- 
+
         f = open(self.file_path, "w")
         self.lines = lines
         f.write("".join(self.lines))
-        
+
     def __output(self, content):
         if self.write_:
             f = open(self.file_path, "w")
@@ -62,13 +63,12 @@ class FileReader:
         else:
             print(content)
 
-
     def link(self):
         sources = {}
         for f in self.get_source_files():
-            sources[f] = SourceFile(self.storage_path+ "/" + f)
+            sources[f] = SourceFile(self.storage_path + "/" + f)
             sources[f].parse()
-        
+
         ret = ""
         for i, l in enumerate(self.links):
             ret += "".join(self.lines[0 if i ==
@@ -80,4 +80,3 @@ class FileReader:
         ret += "".join(self.lines[s:])
 
         self.__output(ret)
-

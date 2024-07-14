@@ -1,6 +1,7 @@
 import sys
 import logging
 
+
 class SourceFile:
     class Collector:
         def __init__(self, id):
@@ -23,7 +24,8 @@ class SourceFile:
         try:
             return self.chunks[id]
         except KeyError:
-            logging.error(f"key {id} not found, available keys: {' '.join(self.chunks.keys())}")
+            logging.error(
+                f"key {id} not found, available keys: {' '.join(self.chunks.keys())}")
             sys.exit(1)
 
     def get_chunk_id(self, line):
