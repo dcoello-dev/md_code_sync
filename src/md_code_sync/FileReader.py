@@ -6,9 +6,8 @@ class FileReader:
         self.write_ = write
         self.file_path = file_path
         self.storage_path = storage_path
-        file = open(file_path, "r")
-        self.lines = file.readlines()
-        file.close()
+        with open(file_path, "r") as file:
+            self.lines = file.readlines()
         self.links = []
 
     def parse_link(self, lines, index):
@@ -28,6 +27,7 @@ class FileReader:
         return ret
 
     def parse(self):
+        """identify links"""
         self.links = []
         for i, line in enumerate(self.lines):
             if "code_block_link:" in line:
@@ -42,6 +42,7 @@ class FileReader:
         return set(source_files)
 
     def reset(self):
+        """reset source code links"""
         lines = []
         flag = True
         for i, l in enumerate(self.lines):
@@ -52,9 +53,11 @@ class FileReader:
             if not flag and "```\n" in l:
                 flag = True
 
-        f = open(self.file_path, "w")
         self.lines = lines
-        f.write("".join(self.lines))
+        
+        if self.write_:
+            f = open(self.file_path, "w")
+            f.write("".join(self.lines))
 
     def __output(self, content):
         if self.write_:

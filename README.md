@@ -8,9 +8,9 @@ reference your code from your markdown documentation without have to worry to ma
 
 there are 3 keywords:
 
-- code_block_link : used on markdown file that wants to add a new code block from a different file.
-- code_block_start : used on source file to indicate where a new snippet starts.
-- code_block_end : where code block ends.
+- **code_block_link:** used on markdown file that wants to add a new code block from a different file.
+- **code_block_start:** used on source file to indicate where a new snippet starts.
+- **code_block_end:** where code block ends.
 
 ### code_block_link
 
@@ -21,8 +21,8 @@ place a comment in your markdown file that references the source file and the id
 ```
 
 it accepts two arguments:
-- file: relative path from input markdown file or from root dir if given.
-- id: id of the code snippet on this file.
+- **file:** relative path from input markdown file or from root dir if given.
+- **id:** id of the code snippet on this file.
 
 ### code_block_start/end
 

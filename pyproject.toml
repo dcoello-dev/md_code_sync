@@ -13,9 +13,18 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
+[project.optional-dependencies]
+tests = [
+  "pytest-mock==3.14.0",
+]
+
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "-ra -q"
 testpaths = [
     "tests",
+]
+pythonpath = [
+  ".",
+  "src",
 ]
