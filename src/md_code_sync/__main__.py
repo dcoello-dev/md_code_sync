@@ -1,5 +1,6 @@
-import os
 import argparse
+import logging
+import os
 
 from md_code_sync.FileReader import FileReader
 
@@ -31,16 +32,19 @@ parser.add_argument(
 
 args = parser.parse_args()
 
+logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(message)s")
+
 
 def main():
     if args.root_dir == "":
         args.root_dir = "/".join(os.path.abspath(args.md_file).split("/")[:-1])
 
     reader = FileReader(args.md_file, args.root_dir, args.write)
-    reader.parse()
     reader.reset()
     reader.parse()
     reader.link()
+    reader.exe()
+    reader.output()
 
 
 if __name__ == "__main__":
