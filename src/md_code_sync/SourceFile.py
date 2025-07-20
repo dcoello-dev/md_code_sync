@@ -1,5 +1,5 @@
-import sys
 import logging
+import sys
 
 
 class SourceFile:
@@ -15,7 +15,7 @@ class SourceFile:
             return (id, self.source)
 
     def __init__(self, file_path):
-        with  open(file_path, "r") as file:
+        with open(file_path, "r") as file:
             self.lines = file.readlines()
         self.chunks = {}
 
@@ -38,9 +38,10 @@ class SourceFile:
             return self.chunks[id]
         except KeyError:
             logging.error(
-                f"key {id} not found, available keys: {' '.join(self.chunks.keys())}")
+                f"key {id} not found,"
+                + f"available keys: {' '.join(self.chunks.keys())}"
+            )
             sys.exit(1)
 
     def __get_chunk_id(self, line):
         return line.split(":")[1].strip().replace(")", "")
-

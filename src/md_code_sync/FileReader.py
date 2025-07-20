@@ -11,9 +11,8 @@ class FileReader:
         self.links = []
 
     def parse_link(self, lines, index):
-        arguments = lines[index].split("code_block_link:")[
-            1].replace(")", "")
-        arguments = ' '.join(arguments.split()).split(" ")
+        arguments = lines[index].split("code_block_link:")[1].replace(")", "")
+        arguments = " ".join(arguments.split()).split(" ")
         ret = dict()
         for arg in arguments:
             k, v = arg.split(":")
@@ -23,7 +22,7 @@ class FileReader:
 
         if index + 1 == len(lines):
             lines.append("")
-        ret["linked"] = (f"```{ret['ext']}" in lines[index+1])
+        ret["linked"] = f"```{ret['ext']}" in lines[index + 1]
         return ret
 
     def parse(self):
@@ -37,8 +36,8 @@ class FileReader:
 
     def get_source_files(self):
         source_files = []
-        for l in self.links:
-            source_files.append(l["file"])
+        for link in self.links:
+            source_files.append(link["file"])
         return set(source_files)
 
     def reset(self):
@@ -46,7 +45,7 @@ class FileReader:
         lines = []
         flag = True
         for i, l in enumerate(self.lines):
-            if "```" in l and "code_block_link:" in self.lines[i-1]:
+            if "```" in l and "code_block_link:" in self.lines[i - 1]:
                 flag = False
             if flag:
                 lines.append(l)
@@ -54,7 +53,7 @@ class FileReader:
                 flag = True
 
         self.lines = lines
-        
+
         if self.write_:
             f = open(self.file_path, "w")
             f.write("".join(self.lines))
@@ -74,8 +73,16 @@ class FileReader:
 
         ret = ""
         for i, l in enumerate(self.links):
-            ret += "".join(self.lines[0 if i ==
-                           0 else self.links[i-1]["line"]+1:int(l["line"])+1])
+            ret += "".join(
+                self.lines[
+                    (
+                        0 if i == 0 else self.links[i - 1]["line"] + 1
+                    ) : int(  # noqa
+                        l["line"]
+                    )
+                    + 1
+                ]
+            )
             ret += f"```{l['ext']}\n"
             ret += sources[l["file"]].get(l["id"])
             ret += "```\n"

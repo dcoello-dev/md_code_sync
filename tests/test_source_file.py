@@ -1,8 +1,9 @@
 import sys
-sys.path.append("../")
+
 from md_code_sync.SourceFile import SourceFile
 
-from pytest_mock import mocker
+sys.path.append("../")
+
 
 CONTENT = "content"
 
