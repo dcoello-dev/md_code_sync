@@ -8,16 +8,19 @@ reference your code from your markdown documentation without have to worry to ma
 
 there are 3 keywords:
 
-- **code_block_link:** used on markdown file that wants to add a new code block from a different file.
-- **code_block_start:** used on source file to indicate where a new snippet starts.
-- **code_block_end:** where code block ends.
+- **codeblock_link:** used on markdown file that wants to add a new code block from a different file.
+- **codeblock_start:** used on source file to indicate where a new snippet starts.
+- **codeblock_end:** where code block ends.
+
+> [!NOTE]
+> Replace `codeblock` by `code_block` necessary to avoid conflicts parsing this file
 
 ### code_block_link
 
 place a comment in your markdown file that references the source file and the id of the snippet you want to link:
 
 ```markdown
-[//]: # (code_block_link: file:doc/example/example.cpp id:LINK_EXAMPLE)
+[//]: # (code_block_link: file:doc/example/example.cpp id:ALL)
 ```
 
 it accepts two arguments:

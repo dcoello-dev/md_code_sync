@@ -15,8 +15,12 @@ class SourceFile:
             return (id, self.source)
 
     def __init__(self, file_path):
-        with open(file_path, "r") as file:
-            self.lines = file.readlines()
+        try:
+            with open(file_path, "r") as file:
+                self.lines = file.readlines()
+        except FileNotFoundError:
+            print(f"{file_path} not found")
+            sys.exit(1)
         self.chunks = {}
 
     def parse(self):

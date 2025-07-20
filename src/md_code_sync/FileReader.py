@@ -1,3 +1,4 @@
+import sys
 from md_code_sync.SourceFile import SourceFile
 
 
@@ -15,8 +16,13 @@ class FileReader:
         arguments = " ".join(arguments.split()).split(" ")
         ret = dict()
         for arg in arguments:
-            k, v = arg.split(":")
-            ret[k.strip()] = v.strip()
+            try:
+                k, v = arg.split(":")
+                ret[k.strip()] = v.strip()
+            except ValueError:
+                print(f"error on link {lines[index]}")
+                sys.exit(1)
+
 
         ret["ext"] = ret["file"].split(".")[1]
 

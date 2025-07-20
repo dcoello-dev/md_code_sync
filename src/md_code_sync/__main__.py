@@ -1,3 +1,4 @@
+import os
 import argparse
 
 from md_code_sync.FileReader import FileReader
@@ -33,7 +34,7 @@ args = parser.parse_args()
 
 def main():
     if args.root_dir == "":
-        args.root_dir = "/".join(args.md_file.split("/")[:-1])
+        args.root_dir = "/".join(os.path.abspath(args.md_file).split("/")[:-1])
 
     reader = FileReader(args.md_file, args.root_dir, args.write)
     reader.parse()
