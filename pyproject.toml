@@ -7,7 +7,6 @@ authors = [
 description = "tool to inject code snippets from source code files on markdown files."
 readme = "README.md"
 requires-python = ">=3.8"
-license-files = ["LICENSE"]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
