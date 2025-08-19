@@ -27,7 +27,7 @@ class FileReader:
                 print(f"{self.file_path}: error on link {lines[index]}")
                 sys.exit(1)
 
-        ret["ext"] = ret["file"].split(".")[1]
+        ret["ext"] = ret["file"].split(".")[-1]
 
         if index + 1 == len(lines):
             lines.append("")
