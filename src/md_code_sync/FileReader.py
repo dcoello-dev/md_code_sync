@@ -155,12 +155,14 @@ class FileReader:
                 ret += f'```{self.exes[i]["wrap"]}\n'
 
             result = subprocess.Popen(
-                cmd["exe"].split(" "),
+                cmd["exe"],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
+                shell=True
             )
             out, _ = result.communicate()
-            ret += out.decode("utf-8")
+            ro = out.decode("utf-8")
+            ret += ro
             if "wrap" in self.exes[i].keys():
                 ret += "```\n"
             ret += "\n[//]: ####\n"
