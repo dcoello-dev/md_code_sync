@@ -158,7 +158,7 @@ class FileReader:
                 cmd["exe"],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
-                shell=True
+                shell=True,
             )
             out, _ = result.communicate()
             ro = out.decode("utf-8")

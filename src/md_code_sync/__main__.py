@@ -1,6 +1,7 @@
 import argparse
 import logging
 import os
+import sys
 
 from md_code_sync.FileReader import FileReader
 
@@ -9,7 +10,15 @@ parser = argparse.ArgumentParser(
 )
 
 parser.add_argument(
-    "-i", "--md_file", required=True, help="inpunt markdown file"
+    "md_file", nargs=argparse.REMAINDER, help="input markdown files"
+)
+
+parser.add_argument(
+    "-v",
+    "--verbose",
+    choices=["VERBOSE", "DEBUG", "INFO", "WARNING", "ERROR"],
+    default="ERROR",
+    help="output log level",
 )
 
 parser.add_argument(
@@ -32,19 +41,28 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-logging.basicConfig(level=logging.ERROR, format="%(asctime)s %(message)s")
+logging.basicConfig(
+    format="%(asctime)s %(message)s",
+    level=eval(f"logging.{args.verbose.upper()}"),
+)
 
 
 def main():
-    if args.root_dir == "":
-        args.root_dir = "/".join(os.path.abspath(args.md_file).split("/")[:-1])
+    logging.debug(f"processing {str(args.md_file)}")
+    for file in args.md_file:
+        if args.root_dir == "":
+            root_dir = "/".join(os.path.abspath(file).split("/")[:-1])
+        else:
+            root_dir = args.root_dir
+        logging.debug(f"root dir {root_dir}")
+        reader = FileReader(file, root_dir, args.write)
+        reader.reset()
+        reader.parse()
+        reader.link()
+        reader.exe()
+        reader.output()
 
-    reader = FileReader(args.md_file, args.root_dir, args.write)
-    reader.reset()
-    reader.parse()
-    reader.link()
-    reader.exe()
-    reader.output()
+    sys.exit(0)
 
 
 if __name__ == "__main__":
