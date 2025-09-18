@@ -24,7 +24,9 @@ class FileReader:
                 k, v = arg.split(":")
                 ret[k.strip()] = v.strip()
             except ValueError:
-                print(f"{self.file_path}: error on link {lines[index]}")
+                logging.error(
+                    f"{self.file_path}: error on link {lines[index]}"
+                )
                 sys.exit(1)
 
         ret["ext"] = ret["file"].split(".")[-1]
@@ -160,7 +162,12 @@ class FileReader:
                 stderr=subprocess.PIPE,
                 shell=True,
             )
-            out, _ = result.communicate()
+            out, err = result.communicate()
+            if result.returncode != 0:
+                logging.error(
+                    f"{self.file_path}:{cmd['line']}: {err.decode('utf-8')}"
+                )
+                sys.exit(result.returncode)
             ro = out.decode("utf-8")
             ret += ro
             if "wrap" in self.exes[i].keys():

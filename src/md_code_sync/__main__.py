@@ -42,7 +42,7 @@ parser.add_argument(
 args = parser.parse_args()
 
 logging.basicConfig(
-    format="%(asctime)s %(message)s",
+    format="%(asctime)s %(levelname)s:%(message)s",
     level=eval(f"logging.{args.verbose.upper()}"),
 )
 

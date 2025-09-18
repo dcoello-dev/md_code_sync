@@ -1,10 +1,10 @@
 -   id: md_code_sync
     name: md_code_sync
     description: ''
-    entry:  bash -c 'md_code_sync -v DEBUG -w "$@"'
+    entry:  md_code_sync
     language: python
     types: [markdown]
-    args: []
+    args: ["-v", "ERROR", "-w"]
     require_serial: false
     additional_dependencies: []
     minimum_pre_commit_version: '0'

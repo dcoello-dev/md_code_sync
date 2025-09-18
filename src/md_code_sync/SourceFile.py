@@ -19,7 +19,7 @@ class SourceFile:
             with open(file_path, "r") as file:
                 self.lines = file.readlines()
         except FileNotFoundError:
-            print(f"{file_path} not found")
+            logging.error(f"{file_path} not found")
             sys.exit(1)
         self.chunks = {}
 
