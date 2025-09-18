@@ -32,7 +32,7 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(message)s")
+logging.basicConfig(level=logging.ERROR, format="%(asctime)s %(message)s")
 
 
 def main():
