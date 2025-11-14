@@ -56,19 +56,19 @@ class FileReader:
 
     def parse(self):
         """identify links"""
-        logging.info(f"{self.file_path} parsing links")
+        logging.debug(f"{self.file_path} parsing links")
         self.links = []
         for i, line in enumerate(self.lines):
             if "code_block_link:" in line:
                 link = self.parse_link(self.lines, i)
                 link["line"] = i
                 self.links.append(link)
-                logging.info(f"{self.file_path}:{i} added link")
+                logging.debug(f"{self.file_path}:{i} added link")
             if "md_block_exe:" in line:
                 exe = self.parse_exe(self.lines, i)
                 exe["line"] = i
                 self.exes.append(exe)
-                logging.info(f"{self.file_path}:{i} added exe")
+                logging.debug(f"{self.file_path}:{i} added exe")
 
     def get_source_files(self):
         source_files = []
@@ -78,7 +78,7 @@ class FileReader:
 
     def reset(self):
         """reset source code links"""
-        logging.info(f"{self.file_path} reseting links")
+        logging.debug(f"{self.file_path} reseting links")
         lines = []
         flag_link = True
         flag_exe = True
