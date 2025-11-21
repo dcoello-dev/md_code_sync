@@ -15,7 +15,7 @@ class FileReader:
         self.links = []
         self.exes = []
 
-    def parse_link(self, lines, index, logger=None):
+    def parse_link(self, lines, index, logger=logging):
         arguments = lines[index].split("code_block_link:")[1].replace(")", "")
         arguments = " ".join(arguments.split()).split(" ")
         ret = dict()
@@ -24,10 +24,9 @@ class FileReader:
                 k, v = arg.split(":")
                 ret[k.strip()] = v.strip()
             except ValueError:
-                if logger:
-                    logger.through(
-                        f"{self.file_path}: error on link {lines[index]}", "error"
-                    )
+                logger.error(
+                    f"{self.file_path}: error on link {lines[index]}"
+                )
 
         ret["ext"] = ret["file"].split(".")[-1]
 
@@ -139,7 +138,7 @@ class FileReader:
 
         self.lines = [f"{link}\n" for link in ret.split("\n")]
 
-    def exe(self, logger=None):
+    def exe(self, logger=logging):
         ret = ""
         for i, cmd in enumerate(self.exes):
             ret += "".join(
@@ -164,10 +163,9 @@ class FileReader:
             )
             out, err = result.communicate()
             if result.returncode != 0:
-                if logger:
-                    logger.through(
-                        f"{self.file_path}:{cmd['line']}: [{cmd['exe']}] error {err.decode('utf-8')}", "error"
-                    )
+                logger.error(
+                    f"{self.file_path}:{cmd['line']}: [{cmd['exe']}] error {err.decode('utf-8')}"
+                )
                 return result.returncode
             ro = out.decode("utf-8")
             ret += ro
