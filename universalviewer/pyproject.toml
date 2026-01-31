@@ -1,0 +1,27 @@
+[project]
+name = "universalviewer"
+version = "0.1.0"
+description = "A modern Python project with Rich, Pydantic, Typer, and Textual"
+authors = [{ name = "Your Name", email = "your.email@example.com" }]
+dependencies = [
+    "rich",
+    "pydantic",
+    "typer",
+    "textual",
+]
+readme = "README.md"
+requires-python = ">=3.10"
+
+[project.scripts]
+universalviewer = "universalviewer.main:run"
+
+[project.entry-points."universalviewer.plugins"]
+info = "universalviewer.plugins.core:InfoPlugin"
+logs = "universalviewer.plugins.logs:LogPlugin"
+watch = "universalviewer.plugins.watch:WatcherPlugin"
+gitp = "universalviewer.plugins.gitp:GitStatusPlugin"
+editor = "universalviewer.plugins.editor:EditorPlugin"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
